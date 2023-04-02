@@ -35,12 +35,12 @@ class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = (AuthorEditOrReadOnly,)
 
     def get_queryset(self):
-        post =get_object_or_404(Post, id=self.kwargs.get('post_id'))
+        post = get_object_or_404(Post, id=self.kwargs.get('post_id'))
         new_queryset = post.comments.all()
         return new_queryset
-    
+
     def perform_create(self, serializer):
-        post =get_object_or_404(Post, id=self.kwargs.get('post_id'))
+        post = get_object_or_404(Post, id=self.kwargs.get('post_id'))
         serializer.save(author=self.request.user, post=post)
 
 
@@ -52,6 +52,6 @@ class FollowViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         return user.follower.all()
-    
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
